@@ -6,7 +6,8 @@ Projeto Full-Stack de e-commerce construído com Laravel/MySQL no Backend e Reac
 
 ### Pré-requisitos
 Certifique-se de que sua máquina possui:
-- Docker e Docker Compose instalados.
+- [Docker](https://docs.docker.com/get-docker/) instalado.
+- [Docker Compose](https://docs.docker.com/compose/install/) instalado.
 
 ### Passos de Inicialização
 
