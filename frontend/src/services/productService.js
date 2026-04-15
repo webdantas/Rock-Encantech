@@ -3,18 +3,18 @@ import api from '../api/api';
 export const getProducts = async ({
     page = 1,
     search = "",
-    category_id = "",
+    category = "",
 } = {}) => {
 
     const response = await api.get('/products', {
         params: {
             page,
             search,
-            category_id,
+            category_id: category,
         }
     });
 
-    return response.data.data;
+    return response.data;
 };
 
 export const getProductById = async (id) => {

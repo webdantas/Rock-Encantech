@@ -15,7 +15,7 @@ class ProductService
 
     public function list(array $filters = [])
     {
-        return $this->repository->paginate(10, $filters);
+        return $this->repository->paginate($filters);
     }
 
     public function get(int $id)

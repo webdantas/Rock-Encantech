@@ -6,22 +6,22 @@ use App\Models\Product;
 
 class ProductRepository
 {
-    public function paginate($perPage = 10, $filters = [])
+    public function paginate($filters = [])
     {
         $query = Product::with('category');
 
-        if (!empty($filters['category'])) {
-            $query->where('category_id', $filters['category']);
+        if (!empty($filters['category_id'])) {
+            $query->where('category_id', $filters['category_id']);
         }
 
         if (!empty($filters['search'])) {
             $query->where(function ($q) use ($filters) {
-                $q->where('name', 'like', '%' . $filters['search'] . '%')
-                    ->orWhere('description', 'like', '%' . $filters['search'] . '%');
+                $q->where('name', 'like', "%{$filters['search']}%")
+                    ->orWhere('description', 'like', "%{$filters['search']}%");
             });
         }
 
-        return $query->paginate($perPage);
+        return $query->paginate(10);
     }
 
     public function find($id)

@@ -1,5 +1,7 @@
-import { useEffect, useState } from 'react';
-import { getProducts } from '../services/productService';
+import { useEffect, useState } from "react";
+import { getProducts } from "../services/productService";
+import { getCategories } from "../services/categoryService";
+
 import {
     Container,
     Grid,
@@ -9,95 +11,160 @@ import {
     TextField,
     Select,
     MenuItem,
-    Pagination
-} from '@mui/material';
+    Pagination,
+    CircularProgress,
+} from "@mui/material";
 
 export default function ProductsPage() {
     const [products, setProducts] = useState([]);
+    const [categories, setCategories] = useState([]);
+
     const [page, setPage] = useState(1);
     const [totalPages, setTotalPages] = useState(1);
-    const [search, setSearch] = useState('');
-    const [category, setCategory] = useState('');
+
+    const [search, setSearch] = useState("");
+    const [category, setCategory] = useState("");
+
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+
+    // 🔥 Carregar produtos (com debounce)
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            fetchProducts();
+        }, 500);
+
+        return () => clearTimeout(timeout);
+    }, [page, search, category]);
+
+    // 🔥 Carregar categorias
+    useEffect(() => {
+        fetchCategories();
+    }, []);
 
     const fetchProducts = async () => {
         try {
+            setLoading(true);
+            setError(null);
+
             const response = await getProducts({
                 page,
                 search,
-                category
+                category_id: category,
             });
 
-            setProducts(response.data.data);
-            setTotalPages(response.data.last_page);
-        } catch (error) {
-            console.error('Erro ao buscar produtos:', error);
+            const productsData = response?.data?.data || [];
+            const lastPage = response?.data?.meta?.last_page || 1;
+
+            setProducts(productsData);
+            setTotalPages(lastPage);
+
+        } catch (err) {
+            console.error(err);
+            setError("Erro ao carregar produtos");
+        } finally {
+            setLoading(false);
         }
     };
 
-    useEffect(() => {
-        fetchProducts();
-    }, [page, search, category]);
+    const fetchCategories = async () => {
+        try {
+            const response = await getCategories();
+            setCategories(response.data || []);
+        } catch (err) {
+            console.error(err);
+        }
+    };
 
     return (
-        <Container>
+        <Container sx={{ mt: 5 }}>
             <Typography variant="h4" gutterBottom>
                 Produtos
             </Typography>
 
-            {/* Filtros */}
-            <Grid container spacing={2} marginBottom={2}>
-                <Grid item xs={6}>
+            {/* 🔎 Filtros */}
+            <Grid container spacing={2} sx={{ mb: 3 }}>
+                <Grid item xs={12} md={6}>
                     <TextField
                         fullWidth
                         label="Buscar"
                         value={search}
-                        onChange={(e) => setSearch(e.target.value)}
+                        onChange={(e) => {
+                            setPage(1);
+                            setSearch(e.target.value);
+                        }}
                     />
                 </Grid>
 
-                <Grid item xs={6}>
+                <Grid item xs={12} md={6}>
                     <Select
                         fullWidth
                         value={category}
-                        onChange={(e) => setCategory(e.target.value)}
                         displayEmpty
+                        onChange={(e) => {
+                            setPage(1);
+                            setCategory(e.target.value);
+                        }}
                     >
                         <MenuItem value="">Todas Categorias</MenuItem>
-                        <MenuItem value="1">Eletrônicos</MenuItem>
-                        <MenuItem value="2">Roupas</MenuItem>
-                        <MenuItem value="3">Livros</MenuItem>
+
+                        {Array.isArray(categories) &&
+                            categories.map((cat) => (
+                                <MenuItem key={cat.id} value={cat.id}>
+                                    {cat.name}
+                                </MenuItem>
+                            ))}
                     </Select>
                 </Grid>
             </Grid>
 
-            {/* Lista de Produtos */}
+            {/* 🔄 Loading */}
+            {loading && (
+                <div style={{ textAlign: "center", marginTop: 40 }}>
+                    <CircularProgress />
+                </div>
+            )}
+
+            {/* ❌ Erro */}
+            {error && (
+                <Typography color="error" align="center">
+                    {error}
+                </Typography>
+            )}
+
+            {/* 📦 Produtos */}
             <Grid container spacing={2}>
-                {products.map((product) => (
-                    <Grid item xs={4} key={product.id}>
-                        <Card>
-                            <CardContent>
-                                <Typography variant="h6">
-                                    {product.name}
-                                </Typography>
-                                <Typography>
-                                    {product.description}
-                                </Typography>
-                                <Typography>
-                                    R$ {product.price}
-                                </Typography>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                ))}
+                {!loading &&
+                    Array.isArray(products) &&
+                    products.map((product) => (
+                        <Grid item xs={12} sm={6} md={3} key={product.id}>
+                            <Card>
+                                <CardContent>
+                                    <Typography variant="h6">
+                                        {product?.name}
+                                    </Typography>
+
+                                    <Typography>
+                                        {product?.description}
+                                    </Typography>
+
+                                    <Typography>
+                                        R$ {product?.price}
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                        </Grid>
+                    ))}
             </Grid>
 
-            {/* Paginação */}
-            <Pagination
-                count={totalPages}
-                page={page}
-                onChange={(e, value) => setPage(value)}
-                style={{ marginTop: 20 }}
-            />
+            {/* 📄 Paginação */}
+            <div style={{ marginTop: 20, display: "flex", justifyContent: "center" }}>
+                <Pagination
+                    count={totalPages}
+                    page={page}
+                    onChange={(e, value) => setPage(value)}
+                />
+            </div>
         </Container>
     );
 }
