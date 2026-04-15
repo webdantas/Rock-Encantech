@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getProducts } from "../services/productService";
 import { getCategories } from "../services/categoryService";
 
+import { Link } from 'react-router-dom';
 import {
     Container,
     Grid,
@@ -13,6 +14,7 @@ import {
     MenuItem,
     Pagination,
     CircularProgress,
+    Button,
 } from "@mui/material";
 
 export default function ProductsPage() {
@@ -151,6 +153,16 @@ export default function ProductsPage() {
                                     <Typography>
                                         R$ {product?.price}
                                     </Typography>
+                                    
+                                    <Button 
+                                        component={Link} 
+                                        to={`/produto/${product.id}`} 
+                                        variant="contained" 
+                                        size="small" 
+                                        sx={{ mt: 2 }}
+                                    >
+                                        Ver Detalhes
+                                    </Button>
                                 </CardContent>
                             </Card>
                         </Grid>
