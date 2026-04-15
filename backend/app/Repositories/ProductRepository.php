@@ -8,7 +8,7 @@ class ProductRepository
 {
     public function paginate($perPage = 10, $filters = [])
     {
-        $query = Product::query();
+        $query = Product::with('category');
 
         if (!empty($filters['category'])) {
             $query->where('category_id', $filters['category']);
