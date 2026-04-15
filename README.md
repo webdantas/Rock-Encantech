@@ -22,12 +22,15 @@ Ele subirá quatro containers:
 - `mysql_db` (Banco de Dados, acessível na porta 3306)
 - `react_frontend` (Frontend DevServer, acessível na porta 5173)
 
-2. **Configure o Banco de Dados Fictício (Migrations & Seeders):**
-Após os containers rodarem, prepare o banco de dados rodando os comandos no backend:
+2. **Provisionamento do Banco de Dados (Migrations & Seeders):**
+O banco de dados MySQL é criado e montado automaticamente pelo container `mysql_db` (usando as credenciais definidas no `docker-compose.yml`). Não é necessário importar arquivos `.sql` manuais. 
+
+Para estruturar as tabelas e popular o catálogo com os dados fictícios de demonstração, execute:
 ```bash
 docker compose exec app php artisan migrate:fresh --seed
 ```
-Isso resetará o banco e criará imediatamente categorias padrões e os primeiros produtos para teste (+ User default).
+- **Onde encontrar os dados?** Você pode ver ou alterar os produtos de teste em `backend/database/seeders/ProductSeeder.php`.
+- **Configurações de Conexão:** A comunicação entre o backend e o banco já está pré-configurada no arquivo `.env` do Laravel e no `docker-compose.yml`.
 
 3. **Acesso aos Sistemas:**
 - **Frontend (Acessar a Aplicação Web):** Abra seu navegador e entre em `http://localhost:5173`. Você verá o seu Catálogo!
