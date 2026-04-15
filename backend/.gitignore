@@ -23,8 +23,19 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Laravel
 /backend/vendor
 /backend/node_modules
 /backend/.env
 /frontend/node_modules
 /docker/mysql
+
+# React
+/frontend/node_modules
+
+# Docker
+docker/mysql
+
+# OS
+.DS_Store
