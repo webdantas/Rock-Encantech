@@ -38,7 +38,8 @@ Isso resetará o banco e criará imediatamente categorias padrões e os primeiro
 
 - **Padrão Utilizado (Backend):** Service & Repository Pattern. Todas as chamadas de API são direcionadas aos Controllers `(ProductController, AuthController, etc)`, que invocam a camada de negócio `*Service`, que por fim, solicita os dados na camada do banco `*Repository`.
 - **Coleções (Backend):** Utilizando `ProductCollection` para envelopar perfeitamente a paginação e separar meta-atributos.
-- **Segurança:** Rotas de ações sensíveis (criar, atualizar, excluir produtos) todas isoladas via `auth:sanctum`. Login devolve um Bearer token local.
+- **Segurança e Cadastro de Produtos via API:** Conforme os requisitos, todas as rotas sensíveis (criar, atualizar, excluir produtos) operam plenamente no Backend e estão rigorosamente protegidas via middleware `auth:sanctum`. Operações como o **Cadastro de Novos Produtos**, **Edição** e **Exclusão** podem ser testadas consumindo os endpoints `POST /api/products`, `PUT` e `DELETE` fornecendo o cabeçalho *Authorization: Bearer Token* via Insomnia, Postman ou aplicações de terceiros.
+- **Identidade:** A funcionalidade de Login gera e devolve um Bearer token via endpoint que deve autenticar requisições seguras.
 
 ## Features do Frontend Adicionadas
 - **Navegação Inteligente**: Configuração nativa de Frontend com `react-router-dom`.
