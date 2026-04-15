@@ -139,18 +139,41 @@ export default function ProductsPage() {
                 {!loading &&
                     Array.isArray(products) &&
                     products.map((product) => (
-                        <Grid item xs={12} sm={6} md={3} key={product.id}>
-                            <Card>
-                                <CardContent>
-                                    <Typography variant="h6">
+                        <Grid item xs={12} sm={6} md={3} key={product.id} sx={{ display: 'flex' }}>
+                            <Card sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+                                <CardContent sx={{ flexGrow: 1, display: 'flex', flexDirection: 'column' }}>
+                                    <Typography 
+                                        variant="h6" 
+                                        sx={{ 
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            display: '-webkit-box',
+                                            WebkitLineClamp: 1,
+                                            WebkitBoxOrient: 'vertical',
+                                            minHeight: '2rem'
+                                        }}
+                                    >
                                         {product?.name}
                                     </Typography>
 
-                                    <Typography>
+                                    <Typography 
+                                        variant="body2" 
+                                        color="text.secondary"
+                                        sx={{ 
+                                            mt: 1,
+                                            mb: 2,
+                                            flexGrow: 1,
+                                            overflow: 'hidden',
+                                            textOverflow: 'ellipsis',
+                                            display: '-webkit-box',
+                                            WebkitLineClamp: 3,
+                                            WebkitBoxOrient: 'vertical'
+                                        }}
+                                    >
                                         {product?.description}
                                     </Typography>
 
-                                    <Typography>
+                                    <Typography variant="h6" color="primary" sx={{ mt: 'auto' }}>
                                         R$ {product?.price}
                                     </Typography>
                                     
