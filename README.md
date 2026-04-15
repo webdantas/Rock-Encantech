@@ -15,7 +15,7 @@ Na raiz do projeto (neste mesmo diretório), execute o seguinte comando:
 ```bash
 docker compose up -d
 ```
-Ele subirá três containers:
+Ele subirá quatro containers:
 - `laravel_app` (Backend API e PHP FPM)
 - `nginx_server` (Servidor Web do Backend, acessível na porta 8000)
 - `mysql_db` (Banco de Dados, acessível na porta 3306)
