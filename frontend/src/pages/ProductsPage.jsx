@@ -52,7 +52,7 @@ export default function ProductsPage() {
             const response = await getProducts({
                 page,
                 search,
-                category_id: category,
+                category,
             });
 
             const productsData = response?.data?.data || [];
