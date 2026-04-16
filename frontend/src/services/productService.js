@@ -10,7 +10,7 @@ export const getProducts = async ({
         params: {
             page,
             search,
-            category_id: category,
+            category,
         }
     });
 

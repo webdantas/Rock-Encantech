@@ -33,7 +33,7 @@ class ProductApiTest extends TestCase
                 'success',
                 'data' => [
                     'data' => [
-                        '*' => ['id', 'name', 'price', 'category']
+                        '*' => ['id', 'name', 'price', 'promo_price', 'is_premium', 'category']
                     ],
                     'meta'
                 ]

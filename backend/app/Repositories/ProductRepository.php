@@ -10,8 +10,8 @@ class ProductRepository
     {
         $query = Product::with('category');
 
-        if (!empty($filters['category_id'])) {
-            $query->where('category_id', $filters['category_id']);
+        if (!empty($filters['category'])) {
+            $query->where('category_id', $filters['category']);
         }
 
         if (!empty($filters['search'])) {

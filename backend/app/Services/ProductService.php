@@ -15,12 +15,36 @@ class ProductService
 
     public function list(array $filters = [])
     {
-        return $this->repository->paginate($filters);
+        $products = $this->repository->paginate($filters);
+        
+        // Exemplo de lógica de negócio solicitada no requisito 3.b.iii
+        $products->getCollection()->transform(function ($product) {
+            return $this->applyBusinessLogic($product);
+        });
+
+        return $products;
     }
 
     public function get(int $id)
     {
-        return $this->repository->find($id);
+        $product = $this->repository->find($id);
+        return $this->applyBusinessLogic($product);
+    }
+
+    /**
+     * Aplica lógica de negócio (Requisito 3.b.iii)
+     */
+    protected function applyBusinessLogic($product)
+    {
+        if (!$product) return null;
+
+        // Regra: Produtos acima de R$ 500 são Premium
+        $product->is_premium = $product->price > 500;
+
+        // Regra: Desconto simulado de 5% para demonstração de processamento no Service
+        $product->promo_price = round($product->price * 0.95, 2);
+
+        return $product;
     }
 
     public function create(array $data)
