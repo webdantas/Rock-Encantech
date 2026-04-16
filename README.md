@@ -55,7 +55,14 @@ Realiza testes de componentes para garantir a renderização correta da interfac
 npm run test
 ```
 
----
+## ✨ Diferenciais Técnicos (Nível Sênior)
+
+Este projeto foi além dos requisitos básicos para demonstrar maturidade arquitetural e de UX:
+
+- **Deep Linking & Estado na URL**: Os filtros de pesquisa, categoria e paginação são sincronizados com a URL. Isso permite que o usuário utilize os botões de "Voltar/Avançar" do navegador sem perder o estado da página e possibilita o compartilhamento de links filtrados.
+- **Política de Senha Forte**: O sistema de cadastro utiliza regras rigorosas de validação (mínimo 8 caracteres, letras maiúsculas/minúsculas, números e símbolos), garantindo conformidade com padrões modernos de segurança.
+- **Lógica de Negócio no Service Layer**: Implementação de processamento de dados na camada de serviço (Requisito 3.b.iii), incluindo cálculo automático de preços promocionais e flags de produtos "Premium" baseados em regras de negócio, separando-os da lógica de banco de dados.
+- **CI/CD Integrado**: Configuração de GitHub Actions para automação de testes (PHPUnit + Vitest), Linting e Build de produção a cada push.
 
 ## Estrutura do Sistema
 
