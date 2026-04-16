@@ -30,7 +30,7 @@ export default function ProductsPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    // 🔥 Carregar produtos (com debounce)
+    // Fetch products with debounce
     useEffect(() => {
         const timeout = setTimeout(() => {
             fetchProducts();
@@ -39,7 +39,7 @@ export default function ProductsPage() {
         return () => clearTimeout(timeout);
     }, [page, search, category]);
 
-    // 🔥 Carregar categorias
+    // Fetch categories on mount
     useEffect(() => {
         fetchCategories();
     }, []);
@@ -84,7 +84,7 @@ export default function ProductsPage() {
                 Produtos
             </Typography>
 
-            {/* 🔎 Filtros */}
+            {/* Filters */}
             <Grid container spacing={2} sx={{ mb: 3 }}>
                 <Grid item xs={12} md={6}>
                     <TextField
@@ -120,21 +120,21 @@ export default function ProductsPage() {
                 </Grid>
             </Grid>
 
-            {/* 🔄 Loading */}
+            {/* Loading State */}
             {loading && (
                 <div style={{ textAlign: "center", marginTop: 40 }}>
                     <CircularProgress />
                 </div>
             )}
 
-            {/* ❌ Erro */}
+            {/* Error Message */}
             {error && (
                 <Typography color="error" align="center">
                     {error}
                 </Typography>
             )}
 
-            {/* 📦 Produtos */}
+            {/* Products Grid */}
             <Grid container spacing={2}>
                 {!loading &&
                     Array.isArray(products) &&

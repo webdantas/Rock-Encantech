@@ -38,6 +38,25 @@ docker compose exec app php artisan migrate:fresh --seed
 
 ---
 
+## 🧪 Testes Automatizados
+
+Para garantir a qualidade e a segurança (Proteção de Endpoints), o projeto conta com suítes de testes em ambos os lados:
+
+### Backend (PHPUnit / Laravel)
+Realiza testes de integração para validar as rotas da API e a autenticação Sanctum.
+```bash
+docker compose exec app php artisan test
+```
+
+### Frontend (Vitest / React Testing Library)
+Realiza testes de componentes para garantir a renderização correta da interface.
+```bash
+# Entre na pasta frontend e rode:
+npm run test
+```
+
+---
+
 ## Estrutura do Sistema
 
 - **Padrão Utilizado (Backend):** Service & Repository Pattern. Todas as chamadas de API são direcionadas aos Controllers `(ProductController, AuthController, etc)`, que invocam a camada de negócio `*Service`, que por fim, solicita os dados na camada do banco `*Repository`.
