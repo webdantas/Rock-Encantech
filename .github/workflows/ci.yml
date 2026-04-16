@@ -1,0 +1,61 @@
+name: CI - Continuous Integration
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  laravel-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          extensions: mbstring, dom, curl, libxml, sqlite3
+
+      - name: Install Dependencies
+        run: |
+          cd backend
+          composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
+
+      - name: Copy .env
+        run: |
+          cd backend
+          php -r "file_exists('.env') || copy('.env.example', '.env');"
+
+      - name: Generate Key
+        run: |
+          cd backend
+          php artisan key:generate
+
+      - name: Run Tests
+        run: |
+          cd backend
+          php artisan test
+
+  react-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: Install Dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Run Tests
+        run: |
+          cd frontend
+          npm run test
