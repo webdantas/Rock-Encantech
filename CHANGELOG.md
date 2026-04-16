@@ -17,6 +17,7 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 - Ajuste na paginação de produtos no repositório.
 - Correção de interceptadores de erro no Axios.
 - Uniformização estética da grade de produtos (Grid UI).
+- **CI/CD**: Sincronização de versões do PHP (8.4) e Node.js (20) para compatibilidade com dependências modernas.
 
 ## [0.1.0] - 2026-04-10
 - Inicialização do projeto Laravel e React.
