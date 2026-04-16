@@ -17,6 +17,7 @@ Todas as mudanças notáveis neste projeto serão documentadas neste arquivo.
 - Ajuste na paginação de produtos no repositório.
 - Correção de interceptadores de erro no Axios.
 - Uniformização estética da grade de produtos (Grid UI).
+- **UX**: Implementação de Deep Linking (persistência de filtros e paginação na URL) para melhoria da navegabilidade e suporte ao botão "Voltar".
 - **CI/CD**: Sincronização de versões do PHP (8.4) e Node.js (20) para compatibilidade com dependências modernas.
 - **QA**: Implementação de verificação de Lint (ESLint) e Build de produção integrados ao pipeline de Integração Contínua.
 

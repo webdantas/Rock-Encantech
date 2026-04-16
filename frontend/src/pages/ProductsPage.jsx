@@ -1,8 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { getProducts } from "../services/productService";
 import { getCategories } from "../services/categoryService";
-
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import {
     Container,
     Grid,
@@ -18,17 +17,27 @@ import {
 } from "@mui/material";
 
 export default function ProductsPage() {
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    // Sincronizando estados iniciais com a URL
     const [products, setProducts] = useState([]);
     const [categories, setCategories] = useState([]);
-
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState(parseInt(searchParams.get('page')) || 1);
     const [totalPages, setTotalPages] = useState(1);
-
-    const [search, setSearch] = useState("");
-    const [category, setCategory] = useState("");
-
+    const [search, setSearch] = useState(searchParams.get('search') || "");
+    const [category, setCategory] = useState(searchParams.get('category') || "");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+
+    // Atualiza a URL sempre que os filtros mudam
+    useEffect(() => {
+        const params = {};
+        if (page > 1) params.page = page;
+        if (search) params.search = search;
+        if (category) params.category = category;
+        
+        setSearchParams(params, { replace: true });
+    }, [page, search, category, setSearchParams]);
 
     const fetchProducts = useCallback(async () => {
         try {
