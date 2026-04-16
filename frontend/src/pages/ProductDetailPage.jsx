@@ -15,10 +15,10 @@ export default function ProductDetailPage() {
             try {
                 setLoading(true);
                 const data = await getProductById(id);
-                setProduct(data);
-            } catch (err) {
-                setError('Produto não encontrado.');
-            } finally {
+            setProduct(data);
+        } catch {
+            setError('Produto não encontrado.');
+        } finally {
                 setLoading(false);
             }
         };

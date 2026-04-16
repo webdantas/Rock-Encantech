@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { getProducts } from "../services/productService";
 import { getCategories } from "../services/categoryService";
 
@@ -30,21 +30,7 @@ export default function ProductsPage() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    // Fetch products with debounce
-    useEffect(() => {
-        const timeout = setTimeout(() => {
-            fetchProducts();
-        }, 500);
-
-        return () => clearTimeout(timeout);
-    }, [page, search, category]);
-
-    // Fetch categories on mount
-    useEffect(() => {
-        fetchCategories();
-    }, []);
-
-    const fetchProducts = async () => {
+    const fetchProducts = useCallback(async () => {
         try {
             setLoading(true);
             setError(null);
@@ -67,16 +53,30 @@ export default function ProductsPage() {
         } finally {
             setLoading(false);
         }
-    };
+    }, [page, search, category]);
 
-    const fetchCategories = async () => {
+    const fetchCategories = useCallback(async () => {
         try {
             const response = await getCategories();
             setCategories(response.data || []);
         } catch (err) {
             console.error(err);
         }
-    };
+    }, []);
+
+    // Fetch products with debounce
+    useEffect(() => {
+        const timeout = setTimeout(() => {
+            fetchProducts();
+        }, 500);
+
+        return () => clearTimeout(timeout);
+    }, [fetchProducts]);
+
+    // Fetch categories on mount
+    useEffect(() => {
+        fetchCategories();
+    }, [fetchCategories]);
 
     return (
         <Container sx={{ mt: 5 }}>

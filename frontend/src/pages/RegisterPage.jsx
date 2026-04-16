@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { TextField, Button, Typography, Container, Box, Alert } from '@mui/material';
 import { register } from '../services/authService';
 
 export default function RegisterPage() {
-    const navigate = useNavigate();
     const [userData, setUserData] = useState({ name: '', email: '', password: '', password_confirmation: '' });
     const [error, setError] = useState(null);
 

@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { TextField, Button, Typography, Container, Box, Alert } from '@mui/material';
 import { login } from '../services/authService';
 
 export default function LoginPage() {
-    const navigate = useNavigate();
     const [credentials, setCredentials] = useState({ email: '', password: '' });
     const [error, setError] = useState(null);
 
@@ -19,7 +17,7 @@ export default function LoginPage() {
             await login(credentials);
             // Redirecionando e forçando refresh para atualizar a topbar (Login/Sair)
             window.location.href = '/'; 
-        } catch (err) {
+        } catch {
             setError('Credenciais inválidas ou erro no servidor.');
         }
     };
